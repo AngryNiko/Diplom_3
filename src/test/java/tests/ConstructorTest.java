@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 @Epic("Stellar Burgers UI")
@@ -13,6 +14,8 @@ public class ConstructorTest extends BaseTest {
     public void openBunsTest() {
         mainPage.openSauces();
         mainPage.openBuns();
+
+        Assert.assertTrue(mainPage.isBunsVisible());
     }
 
     @Test
@@ -20,6 +23,8 @@ public class ConstructorTest extends BaseTest {
     @Description("Проверяем переход в раздел Соусы")
     public void openSaucesTest() {
         mainPage.openSauces();
+
+        Assert.assertTrue(mainPage.isSauceVisible());
     }
 
     @Test
@@ -27,5 +32,7 @@ public class ConstructorTest extends BaseTest {
     @Description("Проверяем переход в раздел Начинки")
     public void openFillingsTest() {
         mainPage.openFillings();
+
+        Assert.assertTrue(mainPage.isFillingVisible());
     }
 }

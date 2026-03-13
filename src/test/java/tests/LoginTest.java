@@ -1,48 +1,66 @@
 package tests;
 
 import io.qameta.allure.*;
+import org.junit.Assert;
 import org.junit.Test;
-import pages.LoginPage;
-import pages.RegisterPage;
-import pages.ForgotPasswordPage;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.*;
+
+import java.time.Duration;
 
 @Epic("Stellar Burgers UI")
 @Feature("Авторизация")
 public class LoginTest extends BaseTest {
 
+    private void login(LoginPage loginPage) {
+
+        loginPage.inputEmail(email);
+        loginPage.inputPassword(password);
+        loginPage.clickLogin();
+    }
+
+    public void checkLoginAndLogout() {
+
+        mainPage.clickProfile();
+
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(ExpectedConditions.urlContains("/account/profile"));
+
+        Assert.assertTrue(driver.getCurrentUrl().contains("/account/profile"));
+
+        ProfilePage profilePage = new ProfilePage(driver);
+        profilePage.logout();
+    }
+
     @Test
     @Story("Вход через кнопку «Войти в аккаунт»")
-    @Description("Проверяем вход через кнопку на главной странице")
     public void loginFromMainPageTest() {
 
         mainPage.clickLoginButton();
 
         LoginPage loginPage = new LoginPage(driver);
 
-        loginPage.inputEmail("test@mail.com");
-        loginPage.inputPassword("123456");
+        login(loginPage);
 
-        loginPage.clickLogin();
+        checkLoginAndLogout();
     }
 
     @Test
     @Story("Вход через кнопку «Личный кабинет»")
-    @Description("Проверяем вход через кнопку Личный кабинет")
     public void loginFromProfileTest() {
 
         mainPage.clickProfile();
 
         LoginPage loginPage = new LoginPage(driver);
 
-        loginPage.inputEmail("test@mail.com");
-        loginPage.inputPassword("123456");
+        login(loginPage);
 
-        loginPage.clickLogin();
+        checkLoginAndLogout();
     }
 
     @Test
     @Story("Вход через кнопку в форме регистрации")
-    @Description("Проверяем вход через кнопку в форме регистрации")
     public void loginFromRegisterPageTest() {
 
         mainPage.clickLoginButton();
@@ -53,15 +71,13 @@ public class LoginTest extends BaseTest {
         RegisterPage registerPage = new RegisterPage(driver);
         registerPage.clickLogin();
 
-        loginPage.inputEmail("test@mail.com");
-        loginPage.inputPassword("123456");
+        login(loginPage);
 
-        loginPage.clickLogin();
+        checkLoginAndLogout();
     }
 
     @Test
     @Story("Вход через кнопку в форме восстановления пароля")
-    @Description("Проверяем вход через кнопку в форме восстановления пароля")
     public void loginFromForgotPasswordTest() {
 
         mainPage.clickLoginButton();
@@ -69,14 +85,11 @@ public class LoginTest extends BaseTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.goToForgotPassword();
 
-        ForgotPasswordPage forgotPasswordPage =
-                new ForgotPasswordPage(driver);
+        ForgotPasswordPage forgotPage = new ForgotPasswordPage(driver);
+        forgotPage.clickLogin();
 
-        forgotPasswordPage.clickLogin();
+        login(loginPage);
 
-        loginPage.inputEmail("test@mail.com");
-        loginPage.inputPassword("123456");
-
-        loginPage.clickLogin();
+        checkLoginAndLogout();
     }
 }

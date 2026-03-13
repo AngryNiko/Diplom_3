@@ -13,10 +13,15 @@ public class MainPage extends BasePage {
 
     private By loginButton = By.xpath("//button[text()='Войти в аккаунт']");
     private By profileButton = By.xpath("//p[text()='Личный Кабинет']");
+    private By constructorButton = By.xpath("//p[text()='Конструктор']");
 
     private By buns = By.xpath("//span[text()='Булки']");
     private By sauces = By.xpath("//span[text()='Соусы']");
     private By fillings = By.xpath("//span[text()='Начинки']");
+
+    private By bunsItem = By.xpath("//p[contains(text(),'Флюоресцентная булка R2-D3')]");
+    private By sauceItem = By.xpath("//p[contains(text(),'Соус Spicy-X')]");
+    private By fillingItem = By.xpath("//p[contains(text(),'Мясо бессмертных моллюсков Protostomia')]");
 
     @Step("Нажать Войти в аккаунт")
     public void clickLoginButton() {
@@ -64,5 +69,17 @@ public class MainPage extends BasePage {
         scrollToElement(element);
         waitForClick(element);
         element.click();
+    }
+
+    public boolean isBunsVisible() {
+        return driver.findElement(bunsItem).isDisplayed();
+    }
+
+    public boolean isSauceVisible() {
+        return driver.findElement(sauceItem).isDisplayed();
+    }
+
+    public boolean isFillingVisible() {
+        return driver.findElement(fillingItem).isDisplayed();
     }
 }

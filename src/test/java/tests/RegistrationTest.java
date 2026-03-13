@@ -1,10 +1,14 @@
 package tests;
 
 import io.qameta.allure.*;
+import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.LoginPage;
 import pages.RegisterPage;
 
+import java.time.Duration;
 import java.util.UUID;
 
 @Epic("Stellar Burgers UI")
@@ -13,7 +17,7 @@ public class RegistrationTest extends BaseTest {
 
     @Test
     @Story("Успешная регистрация")
-    @Description("Проверяем успешную регистрацию")
+    @Description("Проверяем успешную регистрацию пользователя и возможность авторизации")
     public void registerSuccessTest() {
 
         mainPage.clickLoginButton();
@@ -24,17 +28,26 @@ public class RegistrationTest extends BaseTest {
         RegisterPage registerPage = new RegisterPage(driver);
 
         String email = "user" + UUID.randomUUID() + "@mail.com";
+        String password = "123456";
 
-        registerPage.register(
-                "User",
-                email,
-                "123456"
-        );
+        registerPage.register("User", email, password);
+
+        mainPage.clickProfile();
+        loginPage.inputEmail(email);
+        loginPage.inputPassword(password);
+        loginPage.clickLogin();
+
+        mainPage.clickProfile();
+
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(ExpectedConditions.urlContains("/account/profile"));
+
+        Assert.assertTrue(driver.getCurrentUrl().contains("/account/profile"));
     }
 
     @Test
-    @Story("Ошибка при регистрации")
-    @Description("Проверяем ошибку при регистрации с неправильным паролем")
+    @Story("Ошибка короткого пароля")
+    @Description("Проверяем ошибку регистрации при коротком пароле")
     public void registerWrongPasswordTest() {
 
         mainPage.clickLoginButton();
@@ -46,8 +59,10 @@ public class RegistrationTest extends BaseTest {
 
         registerPage.register(
                 "User",
-                "test@mail.com",
+                "test" + UUID.randomUUID() + "@mail.com",
                 "123"
         );
+
+        Assert.assertTrue(driver.getPageSource().contains("Некорректный пароль"));
     }
 }
