@@ -3,12 +3,10 @@ package tests;
 import io.qameta.allure.*;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.LoginPage;
+import pages.ProfilePage;
 import pages.RegisterPage;
 
-import java.time.Duration;
 import java.util.UUID;
 
 @Epic("Stellar Burgers UI")
@@ -39,10 +37,9 @@ public class RegistrationTest extends BaseTest {
 
         mainPage.clickProfile();
 
-        new WebDriverWait(driver, Duration.ofSeconds(3))
-                .until(ExpectedConditions.urlContains("/account/profile"));
+        ProfilePage profilePage = new ProfilePage(driver);
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("/account/profile"));
+        Assert.assertTrue(profilePage.isProfilePageOpened());
     }
 
     @Test
@@ -63,6 +60,6 @@ public class RegistrationTest extends BaseTest {
                 "123"
         );
 
-        Assert.assertTrue(driver.getPageSource().contains("Некорректный пароль"));
+        Assert.assertTrue(registerPage.isPasswordErrorVisible());
     }
 }

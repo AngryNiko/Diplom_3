@@ -15,7 +15,7 @@ public class ConstructorTest extends BaseTest {
         mainPage.openSauces();
         mainPage.openBuns();
 
-        Assert.assertTrue(mainPage.isBunsVisible());
+        Assert.assertTrue(mainPage.isBunsActive());
     }
 
     @Test
@@ -24,7 +24,7 @@ public class ConstructorTest extends BaseTest {
     public void openSaucesTest() {
         mainPage.openSauces();
 
-        Assert.assertTrue(mainPage.isSauceVisible());
+        Assert.assertTrue(mainPage.isSaucesActive());
     }
 
     @Test
@@ -33,6 +33,6 @@ public class ConstructorTest extends BaseTest {
     public void openFillingsTest() {
         mainPage.openFillings();
 
-        Assert.assertTrue(mainPage.isFillingVisible());
+        Assert.assertTrue(mainPage.isFillingsActive());
     }
 }

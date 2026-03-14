@@ -12,6 +12,12 @@ public class ProfilePage extends BasePage {
         super(driver);
     }
 
+    @Step("Открыта ли страница профиля")
+    public boolean isProfilePageOpened() {
+        waitForUrl("/account/profile");
+        return driver.getCurrentUrl().contains("/account/profile");
+    }
+
     @Step("Выйти из аккаунта")
     public void logout() {
         driver.findElement(logoutButton).click();

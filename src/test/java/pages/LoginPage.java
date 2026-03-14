@@ -3,6 +3,8 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
@@ -20,7 +22,8 @@ public class LoginPage extends BasePage {
 
     @Step("Ввести email")
     public void inputEmail(String email) {
-        driver.findElement(emailInput).sendKeys(email);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(emailInput));
+        element.sendKeys(email);
     }
 
     @Step("Ввести пароль")
@@ -30,7 +33,9 @@ public class LoginPage extends BasePage {
 
     @Step("Нажать кнопку Войти")
     public void clickLogin() {
-        driver.findElement(loginButton).click();
+        WebElement element = driver.findElement(loginButton);
+        waitForClick(element);
+        element.click();
     }
 
     @Step("Перейти на регистрацию")

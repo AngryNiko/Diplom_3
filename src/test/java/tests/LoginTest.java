@@ -3,11 +3,7 @@ package tests;
 import io.qameta.allure.*;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.*;
-
-import java.time.Duration;
 
 @Epic("Stellar Burgers UI")
 @Feature("Авторизация")
@@ -24,12 +20,10 @@ public class LoginTest extends BaseTest {
 
         mainPage.clickProfile();
 
-        new WebDriverWait(driver, Duration.ofSeconds(3))
-                .until(ExpectedConditions.urlContains("/account/profile"));
-
-        Assert.assertTrue(driver.getCurrentUrl().contains("/account/profile"));
-
         ProfilePage profilePage = new ProfilePage(driver);
+
+        Assert.assertTrue(profilePage.isProfilePageOpened());
+
         profilePage.logout();
     }
 

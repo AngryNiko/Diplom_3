@@ -27,6 +27,11 @@ public class RegisterPage extends BasePage {
         driver.findElement(registerButton).click();
     }
 
+    @Step("Ошибка неверного пароля")
+    public boolean isPasswordErrorVisible() {
+        return driver.getPageSource().contains("Некорректный пароль");
+    }
+
     @Step("Нажать Войти")
     public void clickLogin() {
         driver.findElement(loginLink).click();

@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import pages.MainPage;
+import utils.Config;
 
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ public class BaseTest {
 
         driver = DriverFactory.createDriver();
 
-        driver.get("https://stellarburgers.education-services.ru/");
+        driver.get(Config.BASE_URL);
 
         mainPage = new MainPage(driver);
     }

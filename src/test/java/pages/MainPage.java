@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MainPage extends BasePage {
 
@@ -18,10 +19,6 @@ public class MainPage extends BasePage {
     private By buns = By.xpath("//span[text()='Булки']");
     private By sauces = By.xpath("//span[text()='Соусы']");
     private By fillings = By.xpath("//span[text()='Начинки']");
-
-    private By bunsItem = By.xpath("//p[contains(text(),'Флюоресцентная булка R2-D3')]");
-    private By sauceItem = By.xpath("//p[contains(text(),'Соус Spicy-X')]");
-    private By fillingItem = By.xpath("//p[contains(text(),'Мясо бессмертных моллюсков Protostomia')]");
 
     @Step("Нажать Войти в аккаунт")
     public void clickLoginButton() {
@@ -44,42 +41,39 @@ public class MainPage extends BasePage {
     @Step("Перейти в раздел Булки")
     public void openBuns() {
 
-        WebElement element = driver.findElement(buns);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(buns));
 
         scrollToElement(element);
-        waitForClick(element);
         element.click();
     }
 
     @Step("Перейти в раздел Соусы")
     public void openSauces() {
 
-        WebElement element = driver.findElement(sauces);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(sauces));
 
         scrollToElement(element);
-        waitForClick(element);
         element.click();
     }
 
     @Step("Перейти в раздел Начинки")
     public void openFillings() {
 
-        WebElement element = driver.findElement(fillings);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(fillings));
 
         scrollToElement(element);
-        waitForClick(element);
         element.click();
     }
 
-    public boolean isBunsVisible() {
-        return driver.findElement(bunsItem).isDisplayed();
+    public boolean isBunsActive() {
+        return waitForTabActive(buns);
     }
 
-    public boolean isSauceVisible() {
-        return driver.findElement(sauceItem).isDisplayed();
+    public boolean isSaucesActive() {
+        return waitForTabActive(sauces);
     }
 
-    public boolean isFillingVisible() {
-        return driver.findElement(fillingItem).isDisplayed();
+    public boolean isFillingsActive() {
+        return waitForTabActive(fillings);
     }
 }
